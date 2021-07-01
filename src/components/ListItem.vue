@@ -15,14 +15,14 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '',
     },
+    id: {
+      type: Number as PropType<number>,
+      default: null,
+    },
   },
   setup(props, { emit, slots }) {
-    function itemClick() {
-
-    }
     return () => h('li', {
       class: 'list-item',
-      onClick: itemClick,
     },
     [
       h('span', { class: 'name' }, [props.name]),

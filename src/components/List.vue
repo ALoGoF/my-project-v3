@@ -1,12 +1,54 @@
 <script lang="ts">
-import { defineComponent, h } from 'vue';
+import {
+  defineComponent, h, PropType, watchEffect, ref, toRefs,
+} from 'vue';
+import _ from 'lodash';
 
+interface Item {
+  id: number,
+  name: string,
+  email: string,
+  address: string,
+  active: boolean
+}
 export default defineComponent({
+  components: {
+  },
+  props: {
+    list: {
+      type: Array as PropType<Item[]>,
+      default: [],
+    },
+  },
   setup(props, { slots, emit }) {
+    const data = ref<Item[]>([]);
+    watchEffect(() => {
+      data.value = _.cloneDeep(props.list);
+    });
+    function handlerClick(e: DocumentEvent, index: number) {
+      data.value.forEach((item, i) => {
+        item.active = false;
+      });
+      data.value.forEach((item, i) => {
+        if (index === i) {
+          item.active = true;
+          emit('handleDataChange');
+        }
+      });
+    }
     return () => h('ul', {
       class: 'list-wrap',
     },
-    slots);
+    data.value.map((item, index) => h('li', {
+      class: `list-item ${item.active ? 'is-active' : ''}`,
+      style: `animation-delay: ${index * 0.1}s`,
+      onClick: ($event: DocumentEvent) => { handlerClick($event, index); },
+    },
+    [
+      h('span', { class: 'name' }, [item.name]),
+      h('span', { class: 'email' }, [item.email]),
+      h('p', { class: 'address' }, [item.address]),
+    ])));
   },
 });
 </script>
@@ -43,5 +85,50 @@ export default defineComponent({
     max-height: 400px;
     overflow: auto;
     margin: 0 auto;
+    padding: 10px;
   }
+
+.list-item:hover {
+  transform: scaleY(1.05);
+  background: #ccc;
+}
+.is-active {
+  transform: scaleY(1.05);
+  background: #ccc;
+}
+.list-item {
+  transition: 0.28s;
+  text-align: left;
+  line-height: 36px;
+  border-bottom: 1px dashed #ccc;
+  cursor: pointer;
+  padding: 20px;
+  animation-duration: 1s;
+  animation-name: itemMove;
+  animation-timing-function: ease-in-out;
+  .name {
+    font-size: 24px;
+    padding: 10px;
+  }
+  .email {
+    font-size: 16px;
+    padding: 5px;
+  }
+  .address {
+    font-size: 18px;
+    padding: 5px;
+  }
+
+}
+
+@keyframes itemMove {
+  50% {
+    transform: scale(1.02);
+    background: #ccc;
+  }
+  100% {
+    transform: scale(1);
+    background: #fff;
+  }
+}
 </style>
