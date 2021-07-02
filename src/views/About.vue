@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-    <list :list='dataList' @handleDataChange='handleChange'>
+    <list :list='dataList' @handleDataChange='handleChange' >
+      <p>你好</p>
     </list>
   </div>
 </template>
@@ -9,13 +10,11 @@
 import {
   defineComponent, reactive, toRefs, watch,
 } from 'vue';
-import mockList from '@/mock/index';
-import ListItem from '@/components/ListItem.vue';
+import mockList from '@/mock/index'
 import List from '@/components/List.vue';
-
+import { emitter } from '@/main';
 export default defineComponent({
   components: {
-    ListItem,
     List,
   },
   setup() {
@@ -24,11 +23,12 @@ export default defineComponent({
       active: false,
     })));
     function handleChange() {
-      console.log('dataList', dataList);
     }
     watch(dataList, () => {
-      console.log('111', 111);
     });
+    emitter.on('foo',p => {
+      console.log(`p`, p)
+    })
     return {
       dataList,
       handleChange,

@@ -1,9 +1,9 @@
 <script lang="ts">
 import {
-  defineComponent, h, PropType, watchEffect, ref, toRefs,
+  defineComponent, h, PropType, watchEffect, ref, toRefs,getCurrentInstance
 } from 'vue';
 import _ from 'lodash';
-
+import { emitter } from '@/main';
 interface Item {
   id: number,
   name: string,
@@ -26,6 +26,7 @@ export default defineComponent({
       data.value = _.cloneDeep(props.list);
     });
     function handlerClick(e: DocumentEvent, index: number) {
+      emitter.emit('foo', {a: 222222222})
       data.value.forEach((item, i) => {
         item.active = false;
       });
@@ -39,7 +40,7 @@ export default defineComponent({
     return () => h('ul', {
       class: 'list-wrap',
     },
-    data.value.map((item, index) => h('li', {
+     data.value.map((item, index) => h('li', {
       class: `list-item ${item.active ? 'is-active' : ''}`,
       style: `animation-delay: ${index * 0.1}s`,
       onClick: ($event: DocumentEvent) => { handlerClick($event, index); },
