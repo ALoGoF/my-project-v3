@@ -21,34 +21,30 @@ export default defineComponent({
     },
   },
   setup(props, { slots, emit }) {
-    const data = ref<Item[]>([]);
-    watchEffect(() => {
-      data.value = _.cloneDeep(props.list);
-    });
+    const activeIndex = ref<number>();
     function handlerClick(e: DocumentEvent, index: number) {
+      activeIndex.value = index;
       emitter.emit('foo', {a: 222222222})
-      data.value.forEach((item, i) => {
-        item.active = false;
-      });
-      data.value.forEach((item, i) => {
-        if (index === i) {
-          item.active = true;
-          emit('handleDataChange');
-        }
-      });
     }
     return () => h('ul', {
       class: 'list-wrap',
     },
-     data.value.map((item, index) => h('li', {
-      class: `list-item ${item.active ? 'is-active' : ''}`,
+     props.list.map((item, index) => h('li', {
+      class: `list-item ${(activeIndex.value === index) ? 'is-active' : ''}`,
       style: `animation-delay: ${index * 0.1}s`,
       onClick: ($event: DocumentEvent) => { handlerClick($event, index); },
     },
+    slots.scoped?
     [
-      h('span', { class: 'name' }, [item.name]),
-      h('span', { class: 'email' }, [item.email]),
-      h('p', { class: 'address' }, [item.address]),
+      h('div', null, slots.scoped(props.list[index]))
+    ]
+    :[
+      h('div',{class: ''},
+      [
+        h('span', { class: 'name' }, [item.name]),
+        h('span', { class: 'email' }, [item.email]),
+        h('p', { class: 'address' }, [item.address]),
+      ])
     ])));
   },
 });
@@ -97,16 +93,10 @@ export default defineComponent({
   transform: scaleY(1.05);
   background: #ccc;
 }
-.list-item {
-  transition: 0.28s;
-  text-align: left;
+.item {
   line-height: 36px;
-  border-bottom: 1px dashed #ccc;
-  cursor: pointer;
   padding: 20px;
-  animation-duration: 1s;
-  animation-name: itemMove;
-  animation-timing-function: ease-in-out;
+  border-bottom: 1px dashed #ccc;
   .name {
     font-size: 24px;
     padding: 10px;
@@ -119,7 +109,14 @@ export default defineComponent({
     font-size: 18px;
     padding: 5px;
   }
-
+}
+.list-item {
+  transition: 0.28s;
+  text-align: left;
+  cursor: pointer;
+  animation-duration: 1s;
+  animation-name: itemMove;
+  animation-timing-function: ease-in-out
 }
 
 @keyframes itemMove {
