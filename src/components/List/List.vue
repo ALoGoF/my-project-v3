@@ -1,6 +1,6 @@
 <script lang="ts">
 import {
-  defineComponent, h, PropType, watchEffect, ref, toRefs,getCurrentInstance
+  defineComponent, h, onMounted, PropType, ref
 } from 'vue';
 import _ from 'lodash';
 import { emitter } from '@/main';
@@ -25,13 +25,28 @@ export default defineComponent({
     function handlerClick(e: DocumentEvent, index: number) {
       activeIndex.value = index;
       emitter.emit('foo', {a: 222222222})
-    }
+    };
+    // function lazyLoad() {
+    //   const itemList = document.querySelectorAll('.list-item');
+    //   const wrapBox = document.querySelector<Element>('.list-wrap');
+    //   wrapBox?.addEventListener('scroll', (e: Event) => {
+    //     const scrollTop = wrapBox.scrollTop;
+    //     console.log(`scrollTop`, scrollTop)
+    //   })
+    //   itemList.forEach(item => {
+    //     const ctx = item.getBoundingClientRect();
+    //     // console.log(`ctx`, ctx);
+    //   })
+    // };
+    onMounted(() => {
+      // lazyLoad();
+    })
     return () => h('ul', {
       class: 'list-wrap',
     },
      props.list.map((item, index) => h('li', {
       class: `list-item ${(activeIndex.value === index) ? 'is-active' : ''}`,
-      style: `animation-delay: ${index * 0.1}s`,
+      style: `animation-delay: ${index * 0.25}s`,
       onClick: ($event: DocumentEvent) => { handlerClick($event, index); },
     },
     slots.scoped?
@@ -97,6 +112,7 @@ export default defineComponent({
   line-height: 36px;
   padding: 20px;
   border-bottom: 1px dashed #ccc;
+  box-sizing: border-box;
   .name {
     font-size: 24px;
     padding: 10px;

@@ -9,7 +9,7 @@ interface Item {
   address: string
 }
 const dataList: Item[] = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 1000; i++) {
   dataList.push(Mock.mock({
     id: i,
     name: Random.cname(),

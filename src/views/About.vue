@@ -17,7 +17,7 @@ import {
   defineComponent, reactive, toRefs, watch,
 } from 'vue';
 import mockList from '@/mock/index'
-import List from '@/components/List.vue';
+import List from '@/components/List/List.vue';
 import { emitter } from '@/main';
 interface Item {
   id: number,
