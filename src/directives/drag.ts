@@ -1,24 +1,54 @@
-import { BindingTypes } from "@vue/compiler-core";
-
 class Drag {
   el: any;
-  binding: any;
+  x: number;
+  y: number;
   constructor(el: any, binding: any) {
-    console.log(`binding`, binding)
     this.el = el;
-    this.binding = binding;
-    el.onmousedown = (e: Event) => this.onMouseDown(e);
-    el.onmousemove = (e: Event) => this.onMouseMove(e);
+    this.x = 0
+    this.y = 0;
+    el.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
   };
-  onMouseDown(e: Event) {
-    this.el.setCapture&& this.el.setCapture();
-    this.el.setAttribute('style', "cursor: move; dragable: true");
+  setStyle(options: {[x:string]: any}) {
+    Object.keys(options).forEach((key: string) => {
+      this.el.style[key] = options[key];
+    })
+  };
+  onMouseDown(e: MouseEvent) {
+    this.el.setCapture && this.el.setCapture();
     this.el.setAttribute('dragable', true);
-    console.log(`e`, e)
+    this.setStyle({
+      'position': 'absolute',
+      'cursor': 'move',
+      'display': 'block',
+      'z-index': '1'
+    });
+    this.x = e.clientX - this.el.offsetLeft;
+    this.y = e.clientY - this.el.offsetTop;
+    document.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
+    document.onmouseup = (e: MouseEvent) => this.onMouseUp(e);
+    return false
   };
-  onMouseMove(e: Event) {
-    
-  }
+  onMouseUp(e: MouseEvent) {
+    this.x = 0;
+    this.y = 0;
+    this.setStyle({
+      'cursor': 'default',
+    });
+    this.el.realseCapture && this.el.realseCapture();
+    document.onmousemove = null;
+    document.onmouseup = null;
+  };
+  onMouseMove(e: MouseEvent) {
+    const left = e.clientX - this.x;
+    const top = e.clientY - this.y;
+    this.setStyle({
+      'left': left + 'px',
+       'top': top + 'px'
+    })
+  };
+  onDragOver(e: DragEvent) {
+    e.preventDefault();
+  };
 };
 export default {
   mounted(el: Element, binding: Object) {
