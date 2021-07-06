@@ -1,6 +1,6 @@
 <template>
   <teleport to='body'>
-  <div class="modal" v-if='modelValue'></div>
+  <div class="modal" v-if='modelValue' @click='closePopup'></div>
   <div class='dialog' v-if='modelValue'>
     <i class='close-icon' @click='closePopup'></i>
     <slot name='header'></slot>
@@ -21,7 +21,6 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, {emit}) {
-    console.log(`props`, props)
     function closePopup() {
       emit('update:modelValue', false)
     };
