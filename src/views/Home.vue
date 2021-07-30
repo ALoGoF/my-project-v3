@@ -2,8 +2,8 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" v-drag @click='handleShowDialog'>
     <el-dialog v-model='visible'>
-      <div class='content'>
-        弹框内容
+      <div class='content' @click="handlePopupClick">
+        {{ state.message }}
       </div>
     </el-dialog>
   </div>
@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { store } from './store';
 export default defineComponent({
   name: 'Home',
   setup() {
@@ -18,11 +19,17 @@ export default defineComponent({
     function handleShowDialog() {
       visible.value = true;
     }
+    const state = store.state; 
+    function handlePopupClick() {
+      store.setState("message", '弹框内容')
+    }
     return {
       visible,
-      handleShowDialog
-    }
-  }
+      state,
+      handleShowDialog,
+      handlePopupClick
+    };
+  },
 });
 </script>
 

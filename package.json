@@ -10,8 +10,12 @@
   "dependencies": {
     "@types/lodash": "^4.14.170",
     "core-js": "^3.6.5",
+    "echarts": "^5.1.2",
+    "file-loader": "^6.2.0",
     "mitt": "^3.0.0",
+    "three": "^0.130.1",
     "vue": "^3.0.0",
+    "vue-echarts": "^6.0.0-rc.6",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
@@ -27,10 +31,12 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-airbnb": "^5.0.2",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "axios": "^0.18.1",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0",
     "lint-staged": "^9.5.0",
+    "mockjs": "^1.1.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "typescript": "~4.1.5"
@@ -38,7 +44,5 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": []
-  }
+  "lint-staged": {}
 }

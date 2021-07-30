@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-    <list :list='dataList' @handleDataChange='handleChange' >
+    {{ state.message }}
+    <list :list='mockList' @handleDataChange='handleChange' >
       <template v-slot:scoped='row'>
         <div class='item'  @click='handlerRowClick(row)'>
           <span class="name">{{row.name}}</span>
@@ -14,11 +15,13 @@
 
 <script lang="ts">
 import {
-  defineComponent, reactive, toRefs, watch,
+  defineComponent, onMounted, reactive, toRefs, watch,
 } from 'vue';
-import mockList from '@/mock/index'
+import dataList from '@/mock/index.js';
 import List from '@/components/List/List.vue';
 import { emitter } from '@/main';
+import { store } from './store'
+
 interface Item {
   id: number,
   name: string,
@@ -30,23 +33,31 @@ export default defineComponent({
     List,
   },
   setup() {
-    const dataList = reactive(mockList.map((item) => ({
-      ...item
-    })));
+    const state = store.state;
+    console.log('state :>> ', state);
+    const mockList: Item[] = reactive(dataList);
     function handleChange() {
     }
-    watch(dataList, () => {
-      console.log(`dataList`, dataList)
+    watch(mockList, () => {
+      console.log('dataList', mockList);
     });
     // emitter.on('foo',p => {
     //   console.log(`p`, p)
     // })
+    onMounted(() => {
+      const about = document.querySelector('.about');
+      const  aboutSibling = about?.previousSibling ;
+      console.log('aboutSibling :>> ', aboutSibling);
+      const parentNode = about?.parentNode;
+      console.log('parentNode :>> ', parentNode);
+    })
     function handlerRowClick(row: Item) {
     }
     return {
-      dataList,
+      mockList,
       handleChange,
-      handlerRowClick
+      handlerRowClick,
+      state
     };
   },
 });

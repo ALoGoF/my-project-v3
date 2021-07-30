@@ -1,9 +1,10 @@
 <script lang="ts">
 import {
-  defineComponent, h, onMounted, PropType, ref
+  defineComponent, h, onMounted, PropType, ref,
 } from 'vue';
 import _ from 'lodash';
 import { emitter } from '@/main';
+
 interface Item {
   id: number,
   name: string,
@@ -22,45 +23,33 @@ export default defineComponent({
   },
   setup(props, { slots, emit }) {
     const activeIndex = ref<number>();
-    function handlerClick(e: DocumentEvent, index: number) {
+    function handlerClick(e: Event, index: number) {
       activeIndex.value = index;
-      emitter.emit('foo', {a: 222222222})
-    };
-    // function lazyLoad() {
-    //   const itemList = document.querySelectorAll('.list-item');
-    //   const wrapBox = document.querySelector<Element>('.list-wrap');
-    //   wrapBox?.addEventListener('scroll', (e: Event) => {
-    //     const scrollTop = wrapBox.scrollTop;
-    //     console.log(`scrollTop`, scrollTop)
-    //   })
-    //   itemList.forEach(item => {
-    //     const ctx = item.getBoundingClientRect();
-    //     // console.log(`ctx`, ctx);
-    //   })
-    // };
+      emitter.emit('foo', { a: 222222222 });
+    }
     onMounted(() => {
-      // lazyLoad();
-    })
+    });
     return () => h('ul', {
       class: 'list-wrap',
     },
-     props.list.map((item, index) => h('li', {
+    props.list.map((item, index) => h('li', {
       class: `list-item ${(activeIndex.value === index) ? 'is-active' : ''}`,
-      style: `animation-delay: ${index * 0.25}s`,
-      onClick: ($event: DocumentEvent) => { handlerClick($event, index); },
+      // style: `animation-delay: ${index * 0.25}s`,
+      onClick: ($event: Event) => { handlerClick($event, index); },
+      'data-key': index
     },
-    slots.scoped?
-    [
-      h('div', null, slots.scoped(props.list[index]))
-    ]
-    :[
-      h('div',{class: ''},
-      [
-        h('span', { class: 'name' }, [item.name]),
-        h('span', { class: 'email' }, [item.email]),
-        h('p', { class: 'address' }, [item.address]),
-      ])
-    ])));
+    slots.scoped
+      ? [
+        h('div', null, slots.scoped(props.list[index])),
+      ]
+      : [
+        h('div', { class: '' },
+          [
+            h('span', { class: 'name' }, [item.name]),
+            h('span', { class: 'email' }, [item.email]),
+            h('p', { class: 'address' }, [item.address]),
+          ]),
+      ])));
   },
 });
 </script>
@@ -130,9 +119,9 @@ export default defineComponent({
   transition: 0.28s;
   text-align: left;
   cursor: pointer;
-  animation-duration: 1s;
-  animation-name: itemMove;
-  animation-timing-function: ease-in-out
+  // animation-duration: 1s;
+  // animation-name: itemMove;
+  // animation-timing-function: ease-in-out
 }
 
 @keyframes itemMove {

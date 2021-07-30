@@ -15,6 +15,26 @@ const routes: Array<RouteRecordRaw> = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
+  {
+    path: '/chartMap',
+    name: 'chartMap',
+    component: () =>  import(/* webpackChunkName: "chartMap" */ '../views/chartMap.vue'),
+  },
+  {
+    path: '/canvasMap',
+    name: 'canvasMap',
+    component: () =>  import(/* webpackChunkName: "chartMap" */ '../views/canvasMap.vue'),
+  },
+  {
+    path: '/svgMap',
+    name: 'svgMap',
+    component: () =>  import(/* webpackChunkName: "chartMap" */ '../views/svgMap/svgMap.vue'),
+  },
+  {
+    path: '/svgTest',
+    name: 'svgTest',
+    component: () =>  import(/* webpackChunkName: "chartMap" */ '../views/svgTest.vue'),
+  }
 ];
 
 const router = createRouter({

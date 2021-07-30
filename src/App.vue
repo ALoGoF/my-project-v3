@@ -2,7 +2,11 @@
 <div>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">About</router-link> | 
+    <router-link to="/chartMap">chartMap</router-link> | 
+    <router-link to="/canvasMap">canvasMap</router-link>| 
+    <router-link to="/svgMap">svgMap</router-link>| 
+    <router-link to="/svgTest">svgTest</router-link>
   </div>
   <router-view/>
 </div>

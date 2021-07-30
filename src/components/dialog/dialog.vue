@@ -7,30 +7,29 @@
     <slot name='default'></slot>
     <slot name='footer'></slot>
   </div>
-    
-  </teleport>  
+
+  </teleport>
 </template>
 <script lang='ts'>
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
     modelValue: {
-      type: Boolean as PropType<boolean>
-    }
+      type: Boolean as PropType<boolean>,
+    },
   },
   emits: ['update:modelValue'],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     function closePopup() {
-      emit('update:modelValue', false)
-    };
-    return {
-      closePopup
+      emit('update:modelValue', false);
     }
+    return {
+      closePopup,
+    };
   },
-})
+});
 </script>
-
 
 <style lang="scss" scoped>
  .modal {
