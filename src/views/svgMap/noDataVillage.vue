@@ -33,7 +33,7 @@ export default defineComponent({
     // const x = 266.236;
     // const y = 505.628;
     // let t = 0;
-    // let resText = defs.replace(/(x\d+|y\d+)\=\"(\d+\.?\d+)\"/g, (str, strsub1, strsub2, index) => {
+    // let resText = defs.replace(/(x\d+|y\d+|d)\=\"(C|M)?(\d+\.?\d+)+\"/g, (str, strsub1, strsub2, index) => {
     //   console.log(`strsub1, strsub2`, strsub1, strsub2)
     //   let res = strsub2;
     //   if(t%2 === 0) {

@@ -1,6 +1,5 @@
 <template>
   <div class="about">
-    {{ state.message }}
     <list :list='mockList' @handleDataChange='handleChange' >
       <template v-slot:scoped='row'>
         <div class='item'  @click='handlerRowClick(row)'>
@@ -20,7 +19,6 @@ import {
 import dataList from '@/mock/index.js';
 import List from '@/components/List/List.vue';
 import { emitter } from '@/main';
-import { store } from './store'
 
 interface Item {
   id: number,
@@ -33,8 +31,6 @@ export default defineComponent({
     List,
   },
   setup() {
-    const state = store.state;
-    console.log('state :>> ', state);
     const mockList: Item[] = reactive(dataList);
     function handleChange() {
     }
@@ -56,8 +52,7 @@ export default defineComponent({
     return {
       mockList,
       handleChange,
-      handlerRowClick,
-      state
+      handlerRowClick
     };
   },
 });
