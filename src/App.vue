@@ -6,7 +6,8 @@
     <router-link to="/chartMap">chartMap</router-link> | 
     <router-link to="/canvasMap">canvasMap</router-link>| 
     <router-link to="/svgMap">svgMap</router-link>| 
-    <router-link to="/svgTest">svgTest</router-link>
+    <router-link to="/svgTest">svgTest</router-link>| 
+    <router-link to="/tableTest">tableTest</router-link>
   </div>
   <router-view/>
 </div>

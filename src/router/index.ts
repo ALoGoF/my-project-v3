@@ -34,6 +34,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/svgTest',
     name: 'svgTest',
     component: () =>  import(/* webpackChunkName: "chartMap" */ '../views/svgTest.vue'),
+  },
+  {
+    path: '/tableTest',
+    name: 'tableTest',
+    component: () =>  import(/* webpackChunkName: "chartMap" */ '../views/tableTest/index.vue'),
   }
 ];
 

@@ -1,4 +1,5 @@
-import { watch } from 'vue'
+import { watch, ref } from 'vue'
+import { useStore } from './store';
 interface Iprop {
   [x: string]: any
 }
@@ -14,15 +15,19 @@ export function createStore(table: any, props: any) {
   if(!table) {
     throw new Error('table is required');
   };
-  watchProp(props)
+  const store = useStore();
+  Object.keys(propMap).forEach(key => {
+    store.state[key].value = props[key]
+  });
+  watchProp(props, store);
+  return store;
 }
-function setPropValue() {
-  
-}
-function watchProp(props: any) {
-  Object.keys(propMap).map(key => {
-    return watch(() => props[propMap[key]], (newValue, oldValue) => {
 
+function watchProp(props: any, store: any) {
+  Object.keys(propMap).forEach(key => {
+    watch(() => props[key], (newValue, pre) => {
+      console.log(`newValue`, newValue)
+      store.state[key].value = newValue;
     })
   })
 }

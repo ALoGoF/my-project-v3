@@ -1,11 +1,10 @@
-import { reactive, ReactiveEffect, Ref, InjectionKey } from "vue";
+import { reactive, InjectionKey } from "vue";
 
 export default {
   state: reactive({
     message: 'Hello world!'
   }),
   setMessage(message: string) {
-    console.log(`11111`, 11111)
     this.state.message = message;
   }
 }
