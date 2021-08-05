@@ -1,16 +1,29 @@
 <template>
     <div class="test">
-      {{ tableData }}
+      <div class="hidden-cloumn">
+        <slot></slot>
+      </div>
+      <table-header :store="store"/>
+      <table-body :store="store"/>
+      <table-footer :store="store"/>
     </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType, getCurrentInstance, watch } from 'vue'
-import { createStore } from '../store/index'
+import { createStore } from '../store/index';
+import TableBody from './tableBody.vue'
+import tableHeader from './tableHeader.vue';
+import TableFooter from './tableFooter.vue';
 interface data {
   [x: string]: any
 }
 export default defineComponent({
   emits: ['handleRowClick'],
+  components: {
+    TableBody,
+    tableHeader,
+    TableFooter
+  },
   props: {
     height: {
       type: [String , Number],
@@ -34,12 +47,12 @@ export default defineComponent({
     }
   },
   setup(props, {emit, slots}) {
-    console.log('props :>> ', props);
-    watch(() => props.tableData, newValue => {
-      console.log(`newValue`, newValue)
-    })
-    const table = getCurrentInstance();
+    const table:any = getCurrentInstance();
     const store = createStore(table, props);
+    table.store = store
+    return {
+      store
+    }
   },
 })
 </script>
@@ -50,5 +63,9 @@ export default defineComponent({
     height: 200px;
     width: 200px;
     background-color: red
+  }
+  .hidden-cloumn {
+    position: absolute;
+    visibility: hidden;
   }
 </style>

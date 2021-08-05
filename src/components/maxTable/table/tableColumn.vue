@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, getCurrentInstance, PropType, h, watch } from 'vue'
 
 export default defineComponent({
   props: {
@@ -10,18 +10,17 @@ export default defineComponent({
     prop: {
       type: String as  PropType<string>,
       default: ''
-    },
-    tooltip: {
-      type: Boolean as PropType<boolean>,
-      default: false
-      },
-    align: {
-      type: String as PropType<string>,
-      default: 'left'
     }
   },
   setup(props, { slots }) {
-    
+    const instance: any = getCurrentInstance();
+    const parent = instance.parent;
+    watch(props, newValue => {
+      parent.store.setColumn(props, slots)
+    }, {
+      // immediate: true
+    })
+    return () => h('div', {}, ['col'])
   },
 })
 </script>
